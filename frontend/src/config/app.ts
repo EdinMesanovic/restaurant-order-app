@@ -11,10 +11,10 @@ type AppConfigType = {
 };
 
 export const appConfig: AppConfigType = {
-  name: import.meta.env.VITE_APP_NAME ?? "Smash Burger",
+  name: import.meta.env.VITE_APP_NAME ?? "Smash Burgers",
   github: {
     title: "Smash Burger - A restaurant order management app",
-    url: "https://github.com/EdinMesanovic/theme-template",
+    url: "https://github.com/EdinMesanovic/restaurant-order-app",
   },
   author: {
     name: "Edin Mešanović",

@@ -21,8 +21,27 @@ if (!process.env.JWT_SECRET) {
 connectDB();
 
 const app = express();
+const clientUrl = process.env.CLIENT_URL;
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  "http://localhost:4173",
+  "http://127.0.0.1:4173",
+  clientUrl,
+].filter(Boolean);
 
-app.use(cors());
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error("Not allowed by CORS"));
+    },
+  }),
+);
 app.use(express.json());
 
 app.get("/", (req, res) => {

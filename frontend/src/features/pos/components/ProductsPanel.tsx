@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import type { Product } from "@/lib/api-products";
 import type { CategoryFilter, CategoryOption } from "@/features/pos/types";
-import { formatPrice } from "@/features/pos/utils";
 import { cn } from "@/lib/utils";
 
 type ProductsPanelProps = {
@@ -77,55 +76,41 @@ function BurgerProductCard({
   }
 
   return (
-    <div className="rounded-xl border bg-background p-3 shadow-sm">
+    <div className="rounded-2xl border bg-background p-5 shadow-sm">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <div className="font-medium">{product.name}</div>
-          <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
-            {product.description}
-          </p>
+          <div className="text-xl font-semibold">{product.name}</div>
         </div>
 
-        <Badge variant="outline">burger</Badge>
+        <Badge variant="outline" className="px-3 py-1 text-sm">
+          burger
+        </Badge>
       </div>
 
-      <div className="mt-3">
-        <div className="mb-2 text-xs font-medium uppercase text-muted-foreground">
-          Veličina
-        </div>
-
-        <div className="flex flex-wrap gap-2">
+      <div className="mt-5">
+        <div className="flex flex-wrap gap-3">
           {product.variants.map((variant) => (
             <Button
               key={variant.name}
               type="button"
               variant={selectedVariant === variant.name ? "default" : "outline"}
-              size="sm"
-              className="h-9 rounded-full"
+              size="lg"
+              className="h-12 rounded-full px-5 text-base font-semibold"
               onClick={() => setSelectedVariant(variant.name)}
             >
-              <span>{variant.name}</span>
-              <span
-                className={cn(
-                  selectedVariant === variant.name
-                    ? "text-primary-foreground/80"
-                    : "text-muted-foreground",
-                )}
-              >
-                {formatPrice(variant.price)}
-              </span>
+              {variant.name}
             </Button>
           ))}
         </div>
       </div>
 
       {ingredients.length > 0 ? (
-        <div className="mt-3">
-          <div className="mb-2 text-xs font-medium uppercase text-muted-foreground">
+        <div className="mt-5">
+          <div className="mb-3 text-sm font-semibold uppercase text-muted-foreground">
             Sastojci
           </div>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-3">
             {ingredients.map((ingredient) => {
               const isSelected = selectedIngredients.includes(ingredient);
 
@@ -133,11 +118,13 @@ function BurgerProductCard({
                 <Button
                   key={ingredient}
                   type="button"
-                  variant={isSelected ? "secondary" : "outline"}
-                  size="sm"
+                  variant="outline"
+                  size="lg"
                   className={cn(
-                    "h-8 rounded-full text-xs",
-                    !isSelected && "opacity-50 line-through",
+                    "h-12 rounded-full px-5 text-base font-semibold transition-all",
+                    isSelected
+                      ? "border-green-500 bg-green-500/10 text-green-700 hover:bg-green-500/20"
+                      : "border-border text-muted-foreground opacity-60",
                   )}
                   onClick={() => toggleIngredient(ingredient)}
                 >
@@ -149,8 +136,13 @@ function BurgerProductCard({
         </div>
       ) : null}
 
-      <Button type="button" className="mt-4 w-full" onClick={handleAdd}>
-        <Plus className="mr-2 size-4" />
+      <Button
+        type="button"
+        size="lg"
+        className="mt-6 h-14 w-full text-lg font-semibold"
+        onClick={handleAdd}
+      >
+        <Plus className="mr-2 size-5" />
         Dodaj
       </Button>
     </div>
@@ -229,10 +221,6 @@ export function ProductsPanel({
                         {product.description || "Bez dodatnog opisa."}
                       </p>
                     </div>
-
-                    <Badge variant="secondary">
-                      {formatPrice(product.price ?? 0)}
-                    </Badge>
                   </div>
                 </button>
               ))}

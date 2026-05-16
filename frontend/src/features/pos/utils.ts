@@ -3,7 +3,7 @@ import type { OrderResponse } from "@/lib/api-orders";
 export const formatPrice = (value: number) =>
   new Intl.NumberFormat("bs-BA", {
     style: "currency",
-    currency: "EUR",
+    currency: "BAM",
     minimumFractionDigits: 2,
   }).format(value);
 
